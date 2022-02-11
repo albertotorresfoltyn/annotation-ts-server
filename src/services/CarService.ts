@@ -23,41 +23,42 @@ class CarService {
       items: cars.sort(function (a, b) {   
         return (a.year.split('/')[0]  as unknown as number) - (b.year.split('/')[0] as unknown as number) || b.price - a.price;
     }),
-      filters: {
-        city: getUniqueCities(cars),
-        state: getUniqueStates(cars),
-        brand:getUniqueBrands(cars),
-        model:getUniqueModels(cars)
-      }
+      filters: getAWholeLotOfFilters(cars)
     };
     return result;
   }
 }
 
 export default CarService;
-function getUniqueModels(cars: Car[]) {
-  return getUniqueValuesForField('model', cars);
-}
 
-function getUniqueCities(cars: Car[]) {
-  return getUniqueValuesForField('city', cars);
-}
 
-function getUniqueStates(cars: Car[]) {
-  return getUniqueValuesForField('state', cars);
-}
+function getAWholeLotOfFilters(cars: Car[]) {
+  const cities:string[] = [];
+  const states:string[] = [];
+  const brands:string[] = [];
+  const models:string[] = [];
 
-function getUniqueBrands(cars: Car[]) {
-  return getUniqueValuesForField('brand', cars);
-}
-
-function getUniqueValuesForField(field: any, cars: Car[]) {
-  let result:any[]= [];
+  //btw this can be a reduce, but enough preemptive engineering for now
   cars.forEach(car => {
-    if (!result.includes(car[field as keyof typeof car])) {
-      result.push(car[field as keyof typeof car]);
+    if (!cities.includes(car.city)) {//verify city uniqueness
+      cities.push(car.city);
+    }    
+    if (!states.includes(car.state)) {//verify state uniqueness.
+      states.push(car.state);
+    }    
+    if (!brands.includes(car.brand)) {//verify brand uniqueness..
+      brands.push(car.brand);
+    }    
+    if (!models.includes(car.model)) {//verify model uniqueness...
+      models.push(car.model);
     }
   })
-  return result;
+  /// Ahhh! wonderful, we collected all the data in linear time... return the object
+  return {
+    city: cities,
+    state: states,
+    brand:brands,
+    model:models,
+  }
 }
 

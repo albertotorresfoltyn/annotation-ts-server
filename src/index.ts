@@ -9,8 +9,8 @@ const main = async () => {
 
   const carController = Container.get(CarController);
 
-  app.get('/endpoint1', (req: Request, res: Response) => carController.getAllCars(req, res));
-  app.get('/endpoint2', (req: Request, res: Response) => carController.getCars(req, res));
+  app.get('/getAllCars', (req: Request, res: Response) => carController.getAllCars(req, res));
+  app.get('/getCarsById', (req: Request, res: Response) => carController.getCars(req, res));
 
 
   app.listen(3000, () => {
