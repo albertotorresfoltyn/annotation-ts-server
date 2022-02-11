@@ -1,17 +1,21 @@
 import { Service } from "typedi";
 import Car from "../models/Car";
+import dotenv from "dotenv"
+
+dotenv.config();
 const axios = require('axios');
+
 
 @Service()
 class CarRepository {
   async getAllCars(siteStr: string): Promise<Car[]> {
     let result = new Array<Car>();
     try {
-      const res = await axios.get(`https://used-cars-api.development.karvi.com.ar/cars/challenge?site=${siteStr}`,{
-        headers: {'api-key': '826b5e6c-49cc-4362-a0e3-658dc20fdbf2'}
-      })
+      const res = await axios.get(`${process.env.DATA_ORIGIN_URL}?site=${siteStr}`,{
+        headers: {'api-key': process.env.APIKEY}
+      });
       result = res.data;
-    }  catch (err) {
+    } catch (err) {
       console.error(err);
     }
     return result;
