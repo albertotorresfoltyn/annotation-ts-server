@@ -6,14 +6,15 @@ import CarService from "../services/CarService";
 class CarController {
   constructor(private readonly carService: CarService) { }
   async getAllCars(_req: Request, res: Response) {
-    const result = await this.carService.getAllCars();
+    const siteStr:string = _req.query.site as string;
+    const result = await this.carService.getAllCars(siteStr);
     return res.json(result);
   }
   async getCars(_req: Request, res: Response) {
     const idss = _req.query.ids
     const ids= (idss as string)?.split(',');
-    console.log(ids)
-    const result = await this.carService.getCars(ids);
+    const siteStr:string = _req.query.site as string;
+    const result = await this.carService.getCars(siteStr, ids);
     return res.json(result);
   }
 }

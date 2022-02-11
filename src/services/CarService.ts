@@ -4,9 +4,9 @@ import CarRepository from "../repositories/CarRepository";
 
 @Service()
 class CarService {
-  async getCars(ids: any[]) {
+  async getCars(siteStr: string, ids: any[]) {
     let result:Car[] = [];
-    const cars = await this.carRepository.getAllCars();
+    const cars = await this.carRepository.getAllCars(siteStr);
     console.log(ids);
     cars.forEach(car => {
       if (ids.indexOf(`${car.id}`)!=-1) {
@@ -16,9 +16,9 @@ class CarService {
     return result;
   }
   constructor(private readonly carRepository: CarRepository) { }
-  async getAllCars(): Promise<any> {
+  async getAllCars(siteStr: string): Promise<any> {
     let result = null;
-    const cars = await this.carRepository.getAllCars();
+    const cars = await this.carRepository.getAllCars(siteStr);
     result = {
       items: cars.sort(function (a, b) {   
         return (a.year.split('/')[0]  as unknown as number) - (b.year.split('/')[0] as unknown as number) || b.price - a.price;
